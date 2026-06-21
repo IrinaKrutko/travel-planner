@@ -45,7 +45,7 @@ async def get_weather_forecast(city: str, days: int = 3, start_date: str = None)
         else:
             return forecast, None, None
     else:
-        # 🔥 ЕСЛИ ВСЁ НЕ УДАЛОСЬ — ИСПОЛЬЗУЕМ ТЕСТОВЫЕ ДАННЫЕ
+        # ЕСЛИ НЕ УДАЛОСЬ — ИСПОЛЬЗУЕМ ТЕСТОВЫЕ ДАННЫЕ
         print("⚠️ Все попытки получить погоду не удались, использую тестовые данные")
         return generate_test_weather(city, days, start_date), None, None
 
@@ -80,7 +80,7 @@ async def get_weather_by_coords(lat: float, lon: float, days: int, start_date: s
     print(f"📡 Запрос к OpenWeatherMap (координаты)...")
     
     try:
-        # 🔥 УВЕЛИЧЕН ТАЙМАУТ ДО 30 СЕКУНД, ДОБАВЛЕН proxy=None
+        # задаем таймаут, proxy=None
         async with httpx.AsyncClient(timeout=30.0, proxy=None) as client:
             response = await client.get(url, params=params)
             print(f"📡 Статус: {response.status_code}")
@@ -130,7 +130,7 @@ async def get_weather_by_name(city: str, days: int, start_date: str = None):
     print(f"📡 Запрос к OpenWeatherMap (по названию)...")
     
     try:
-        # 🔥 УВЕЛИЧЕН ТАЙМАУТ ДО 30 СЕКУНД, ДОБАВЛЕН proxy=None
+        # задаем таймаут, proxy=None
         async with httpx.AsyncClient(timeout=30.0, proxy=None) as client:
             response = await client.get(url, params=params)
             print(f"📡 Статус: {response.status_code}")
@@ -241,7 +241,7 @@ def parse_weather_data(data: dict, days: int, start_date_obj) -> list:
     
     return forecast
 
-# 🔥 НОВАЯ ФУНКЦИЯ: ГЕНЕРАЦИЯ ТЕСТОВЫХ ДАННЫХ
+# Генерация тестовых данных погоды
 def generate_test_weather(city: str, days: int, start_date: str = None):
     """
     Генерирует тестовые данные погоды (используется, если API недоступен)

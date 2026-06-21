@@ -1,2 +1,75 @@
-# travel-planner
-Travel route generator with AI and weather
+# ✈️ Travel Planner AI
+
+**Travel Planner AI** — это веб-приложение для генерации маршрутов путешествий с учётом погоды. Проект демонстрирует разделение на **фронтенд** (Streamlit) и **бэкенд** (FastAPI), интеграцию с внешними API и работу с базой данных.
+
+---
+
+## 📋 Оглавление
+
+- [О проекте](#-о-проекте)
+- [Технологии](#-технологии)
+- [API Эндпоинты](#-api-эндпоинты)
+- [Структура проекта](#-структура-проекта)
+- [Скриншоты](#-скриншоты)
+
+---
+
+## 🚀 О проекте
+
+Приложение позволяет пользователю:
+
+- Выбрать город и дату начала путешествия
+- Получить прогноз погоды на выбранные дни
+- Сгенерировать маршрут с помощью ИИ (Pollinations AI)
+- Сохранить историю запросов в базу данных
+- Просматривать историю с детализацией
+
+---
+
+## 🛠️ Технологии
+
+### Бэкенд
+- **FastAPI** — создание REST API
+- **Uvicorn** — ASGI-сервер
+- **SQLAlchemy** — ORM для работы с БД
+- **SQLite** — база данных
+- **httpx** — асинхронные HTTP-запросы
+- **python-dotenv** — управление переменными окружения
+
+### Фронтенд
+- **Streamlit** — интерактивный интерфейс
+- **Requests** — отправка запросов к API
+- **Plotly** — визуализация погоды
+
+### Внешние сервисы
+- **OpenWeatherMap** — прогноз погоды (с fallback на тестовые данные)
+- **Pollinations AI** — генерация маршрутов
+
+---
+
+## 📡 API Эндпоинты
+
+| Метод | Эндпоинт | Описание | Тело запроса (JSON) | Ответ (JSON) |
+|-------|----------|----------|---------------------|--------------|
+| `GET` | `/` | Проверка работы API | — | `{"message": "Travel Planner AI API", "status": "online", "version": "2.0.0"}` |
+| `GET` | `/health` | Проверка статуса сервера | — | `{"status": "ok", "message": "Сервер работает"}` |
+| `POST` | `/generate_route` | Генерация маршрута с учётом погоды | `{"city": "Москва", "days": 3, "start_date": "2026-06-21"}` | `{"city": "Москва", "days": 3, "start_date": "2026-06-21", "weather_forecast": [...], "route_plan": "..."}` |
+| `GET` | `/history` | Получить историю всех запросов | — | `[{"id": 1, "city": "Москва", "days": 3, "start_date": "2026-06-21", "latitude": 55.7558, "longitude": 37.6173, "weather_forecast": [...], "route_plan": "...", "created_at": "2026-06-21T12:00:00"}]` |
+| `GET` | `/history/{city}` | Получить историю по городу | — | `[{"id": 1, "city": "Москва", "days": 3, ...}]` |
+
+---
+
+## 📁 Структура проекта
+
+| Путь | Описание |
+|------|----------|
+| `backend/app/main.py` | FastAPI приложение |
+| `backend/app/models.py` | Pydantic модели |
+| `backend/app/database.py` | Подключение к БД |
+| `backend/app/crud.py` | Операции с БД |
+| `backend/app/weather_service.py` | OpenWeatherMap API |
+| `backend/app/ai_service.py` | Pollinations AI |
+| `backend/app/city_translator.py` | Перевод городов |
+| `backend/requirements.txt` | Зависимости бэкенда |
+| `frontend/app.py` | Streamlit |
+| `frontend/requirements.txt` | Зависимости фронтенда |
